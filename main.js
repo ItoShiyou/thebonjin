@@ -136,12 +136,22 @@
   }
 
   /* ---------- products ---------- */
-  set("#products-list", S.products.map(function (p) {
-    var title = p.url ? aTag(p.url, esc(p.title)) : esc(p.title);
-    return '<div class="p-row"><span class="chip' + (p.status === "公開中" ? "" : " ghost") + '">' + esc(p.status) + "</span>" +
-      '<div><p class="p-title">' + title + "</p>" +
-      '<p class="p-meta">' + esc(p.meta) + "</p></div></div>";
-  }).join(""));
+  set("#products-list", S.products.map(function (g) {
+    var rows = g.items.map(function (p) {
+      var title = p.url ? aTag(p.url, esc(p.title)) : esc(p.title);
+      var lit = p.status === "公開中" || p.status === "受賞";
+      return '<div class="p-row"><span class="chip' + (lit ? "" : " ghost") + '">' + esc(p.status) + "</span>" +
+        '<div><p class="p-title">' + title + "</p>" +
+        (p.hook ? '<p class="p-hook">' + esc(p.hook) + "</p>" : "") +
+        '<p class="p-meta">' + esc(p.meta) + "</p></div></div>";
+    }).join("");
+    return '<div class="p-group"><h3 class="p-group-head"><span class="en">' + esc(g.en) + "</span>" +
+      esc(g.name) + '<span class="p-count">' + g.items.length + "</span></h3>" + rows + "</div>";
+  }).join("") + (S.upcoming ? '<div class="p-upcoming"><h3 class="p-up-head">' + esc(S.upcoming.heading) +
+    '<span class="p-up-note">' + esc(S.upcoming.note) + "</span></h3><ul>" +
+    S.upcoming.items.map(function (u) {
+      return "<li><b>" + esc(u.title) + "</b><span>" + esc(u.meta) + "</span></li>";
+    }).join("") + "</ul></div>" : ""));
 
   /* ---------- company ---------- */
   if (S.company) {

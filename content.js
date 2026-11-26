@@ -16,7 +16,7 @@ window.SITE = {
      2026-11-17: イベント終了に伴い、イベントの数字からプロジェクトの数字へ） */
   stats: [
     { value: "6", unit: "本", label: "App Store 公開中のアプリ" },
-    { value: "11", unit: "点", label: "目録に載せた作品" },
+    { value: "12", unit: "点", label: "公開している作品・実績" },
     { value: "6", unit: "人", label: "メンバー" },
     { value: "2", unit: "拠点", label: "宮崎・東京" },
   ],
@@ -297,20 +297,61 @@ window.SITE = {
     },
   ],
 
-  /* 目録（hook は改定 v1 で現状維持が確定） */
+  /* 実績・目録 — 2026-11-26 改定（依頼者向けに絞る）
+     products = 公開済みのものだけ（数に入れる）。分野別、各分野は「公開中 → BETA」の順。
+     upcoming = 制作中のもの（「これから」として小さく出し、数には入れない）。
+     status: 公開中 / 見本 / 受賞 / BETA（公開中・受賞はオレンジのチップ）
+     外したもの：WebGL作品3点（一滴はトップの「技術」欄で紹介）、plicy の重複リンク */
   products: [
-    { status: "公開中", title: "ロウソク行脚", hook: "歩くたびに短くなるロウソクで、夜の洋館に灯りをともす。", meta: "パズル / 全6章150ステージ / App Store", url: "https://apps.apple.com/jp/app/id6822286730" },
-    { status: "公開中", title: "光の窓割り", hook: "数字を手がかりにマスを区切り、ステンドグラスに光を取り戻す。", meta: "パズル / 全66面 / App Store", url: "https://apps.apple.com/jp/app/id6824348602" },
-    { status: "公開中", title: "Focus Wave", hook: "雨、焚き火、カフェ、波の音を指で置く。自分の音の空間。", meta: "環境音 / iPhone / App Store", url: "https://apps.apple.com/jp/app/id6824796019" },
-    { status: "公開中", title: "おもいで百貨店", hook: "昭和のデパート屋上をドット絵でよみがえらせる、のんびり放置ゲーム。", meta: "放置ゲーム / App Store", url: "https://apps.apple.com/jp/app/id6829372905" },
-    { status: "公開中", title: "ハンダン", hook: "日常の判断の考え方を、短いカードと場面クイズで学ぶ。", meta: "学習 / App Store", url: "https://apps.apple.com/jp/app/id6831944228" },
-    { status: "公開中", title: "つみあげ出前", hook: "料理を頭の上に積み上げて届ける。拾う順番がすべて。", meta: "パズル / 全8店 / App Store", url: "https://apps.apple.com/jp/app/id6829997215" },
-    { status: "BETA", title: "肉眼解剖学本試験 (beta)", hook: "医学生最大の難所、解剖学の本試験対策。", meta: "学習 / plicy", url: "https://plicy.net/User/76215" },
-    { status: "制作中", title: "The Taling.", hook: "日々の積み重ねをAIがビジュアル小説化する。解放は1日5分だけ。", meta: "ライフログ", url: null },
-    { status: "制作中", title: "投資学習・ひだまりルーム", hook: "AIコンパニオンと一緒に株価を学ぶ。", meta: "みやざきビジネスコンテスト2026出展プラン", url: null },
-    { status: "制作中", title: "LINEスタンプ生成パイプライン", hook: "市場分析から画像生成、リサイズまで5分で自動完結させる。", meta: "Ollama × Draw Things × FastAPI", url: null },
-    { status: "制作中", title: "骨学試験対策システム", hook: "骨の名前は、試験の前に覚える。", meta: "学習", url: null },
+    {
+      en: "WEB", name: "ホームページ・名刺",
+      items: [
+        { status: "公開中", title: "THE BONJIN 公式サイト", hook: "企画・文章・デザイン・実装まで。約1週間、サーバー代0円で公開。", meta: "ホームページ / 制作事例あり", url: "works/site.html" },
+        { status: "見本", title: "医院ホームページ Before / After", hook: "古い医院サイトを、スマホで見やすく作り直した見本。お知らせはスタッフがGoogleフォームから更新できる。", meta: "ホームページ / 架空の医院で作った見本", url: "https://itoshiyou.github.io/clinic-demo/" },
+        { status: "公開中", title: "尾薗圭亮の名刺ページ", hook: "名刺のQRコードから開く、スマホ用のプロフィールページ。", meta: "名刺 × ホームページ", url: "https://itoshiyou.github.io/business-card/index.html" },
+        { status: "公開中", title: "page.gitpullpull.me", hook: "活動・研究・連絡先を1ページにまとめたリンク集。", meta: "ホームページ / メンバーのページ", url: "https://page.gitpullpull.me" },
+      ],
+    },
+    {
+      en: "APP", name: "アプリ",
+      items: [
+        { status: "公開中", title: "Focus Wave", hook: "雨、焚き火、カフェ、波の音を指で置く。自分の音の空間。", meta: "環境音 / iPhone / App Store", url: "https://apps.apple.com/jp/app/id6824796019" },
+        { status: "公開中", title: "ハンダン", hook: "日常の判断の考え方を、短いカードと場面クイズで学ぶ。", meta: "学習 / App Store", url: "https://apps.apple.com/jp/app/id6831944228" },
+      ],
+    },
+    {
+      en: "GAME", name: "ゲーム",
+      items: [
+        { status: "公開中", title: "ロウソク行脚", hook: "歩くたびに短くなるロウソクで、夜の洋館に灯りをともす。", meta: "パズル / 全6章150ステージ / App Store", url: "https://apps.apple.com/jp/app/id6822286730" },
+        { status: "公開中", title: "光の窓割り", hook: "数字を手がかりにマスを区切り、ステンドグラスに光を取り戻す。", meta: "パズル / 全66面 / App Store", url: "https://apps.apple.com/jp/app/id6824348602" },
+        { status: "公開中", title: "つみあげ出前", hook: "料理を頭の上に積み上げて届ける。拾う順番がすべて。", meta: "パズル / 全8店 / App Store", url: "https://apps.apple.com/jp/app/id6829997215" },
+        { status: "公開中", title: "おもいで百貨店", hook: "昭和のデパート屋上をドット絵でよみがえらせる、のんびり放置ゲーム。", meta: "放置ゲーム / App Store", url: "https://apps.apple.com/jp/app/id6829372905" },
+      ],
+    },
+    {
+      en: "STUDY", name: "学習・試験対策",
+      items: [
+        { status: "BETA", title: "肉眼解剖学本試験 (beta)", hook: "医学生最大の難所、解剖学の本試験対策。ブラウザで遊べる。", meta: "学習 / plicy", url: "https://plicy.net/User/76215" },
+      ],
+    },
+    {
+      en: "RESEARCH", name: "研究・受賞",
+      items: [
+        { status: "受賞", title: "D-CoT（小型LLMの推論効率化）", hook: "小型言語モデルの「考えすぎ」を抑える研究。2026年度 人工知能学会全国大会 優秀賞（単著）。", meta: "論文 arXiv:2602.21786 / メンバー gitpullpull", url: "https://arxiv.org/abs/2602.21786" },
+      ],
+    },
   ],
+
+  upcoming: {
+    heading: "これから",
+    note: "制作中のもの。完成したら上の一覧に移します。",
+    items: [
+      { title: "The Taling.", meta: "ライフログ / AIが日々の記録をビジュアル小説に" },
+      { title: "投資学習・ひだまりルーム", meta: "AIコンパニオンと株価を学ぶ" },
+      { title: "LINEスタンプ生成パイプライン", meta: "AI自動化 / 市場分析→画像生成→リサイズを5分で" },
+      { title: "骨学試験対策システム", meta: "医学部の試験対策" },
+    ],
+  },
 
   footer: {
     org: "THE BONJIN",

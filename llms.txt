@@ -17,9 +17,35 @@
 
 ## 実績
 
-- [制作事例：このサイトのつくり方](https://itoshiyou.github.io/thebonjin/works/site.html)：事業の整理からデザイン、WebGL作品、専用ページ3本、フォーム、構造化データまで約1週間・サーバー代0円で公開した事例
-- [App Store 公開中のアプリ 6本](https://itoshiyou.github.io/thebonjin/apps.html)：ロウソク行脚／光の窓割り／Focus Wave／おもいで百貨店／ハンダン／つみあげ出前
-- D-CoT（小型LLMの推論効率化の研究）：人工知能学会 全国大会優秀賞（2026・単著、gitpullpull）https://arxiv.org/abs/2602.21786
+トップページの「実績・目録」（https://itoshiyou.github.io/thebonjin/#products）と同じ内容。公開しているもの12点。
+
+### ホームページ・名刺
+- [THE BONJIN 公式サイト](https://itoshiyou.github.io/thebonjin/works/site.html)：企画・文章・デザイン・実装まで。約1週間、サーバー代0円で公開（制作事例あり）
+- [医院ホームページ Before / After（見本）](https://itoshiyou.github.io/clinic-demo/)：古い医院サイトをスマホ向けに作り直した見本。架空の医院で作成。お知らせはGoogleフォームから更新できる
+- [尾薗圭亮の名刺ページ](https://itoshiyou.github.io/business-card/index.html)：名刺のQRコードから開く、スマホ用のプロフィールページ
+- [page.gitpullpull.me](https://page.gitpullpull.me)：メンバーの活動・研究・連絡先をまとめたリンク集
+
+### アプリ（App Store 公開中）
+- [Focus Wave](https://apps.apple.com/jp/app/id6824796019)：環境音アプリ
+- [ハンダン](https://apps.apple.com/jp/app/id6831944228)：日常の判断の考え方を学ぶ学習アプリ
+
+### ゲーム（App Store 公開中）
+- [ロウソク行脚](https://apps.apple.com/jp/app/id6822286730)：パズル・全6章150ステージ
+- [光の窓割り](https://apps.apple.com/jp/app/id6824348602)：パズル・全66面
+- [つみあげ出前](https://apps.apple.com/jp/app/id6829997215)：パズル・全8店
+- [おもいで百貨店](https://apps.apple.com/jp/app/id6829372905)：ドット絵の放置ゲーム
+
+### 学習・試験対策
+- [肉眼解剖学本試験 (beta)](https://plicy.net/User/76215)：医学生向けの解剖学試験対策（plicy、BETA）
+
+### 研究・受賞
+- [D-CoT（小型LLMの推論効率化）](https://arxiv.org/abs/2602.21786)：2026年度 人工知能学会全国大会 優秀賞（単著、メンバー gitpullpull）
+
+### これから（制作中・数に含めない）
+- The Taling.（AIが日々の記録をビジュアル小説にするライフログ）
+- 投資学習・ひだまりルーム（AIコンパニオンと株価を学ぶ）
+- LINEスタンプ生成パイプライン（市場分析→画像生成→リサイズを5分で自動化）
+- 骨学試験対策システム（医学部の試験対策）
 
 ## メンバー
 
