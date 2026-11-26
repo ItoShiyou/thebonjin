@@ -368,6 +368,7 @@ window.SITE = {
       ["作品「足跡」", "art/03-ashiato/index.html"],
       ["作品「一滴」", "art/01-itteki/index.html"],
       ["公式LINE（新作・お知らせ）", "https://line.me/R/ti/p/@629zrowt"],
+      ["Google マップ（ビジネスプロフィール）", "https://share.google/ikNIIgEaK2S2IRcun"],
     ],
     colophon: "宮崎でつくっています。書体: Shippori Mincho, Zen Kaku Gothic New, Cormorant Garamond。",
   },
