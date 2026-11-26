@@ -126,6 +126,8 @@ main,.site-foot{position:relative;z-index:1}
 /* ---------- members ledger ---------- */
 .ledger{border-top:1px solid var(--line);margin-top:24px}
 .row{border-bottom:1px solid var(--line)}
+.ledger-group{font-size:12px;letter-spacing:.2em;color:var(--body);padding:26px 4px 10px;border-bottom:1px solid var(--line)}
+.ledger-group:first-child{padding-top:14px}
 .row-main{display:grid;grid-template-columns:52px 1fr auto 20px;gap:16px;align-items:center;width:100%;padding:22px 4px;background:none;border:none;text-align:left;font:inherit;color:inherit;cursor:pointer}
 .row-no{font-size:15px;color:var(--body)}
 .row-name{font-family:var(--font-serif);font-weight:600;font-size:clamp(19px,2.4vw,23px);letter-spacing:.08em;line-height:1.5;transition:color .2s}

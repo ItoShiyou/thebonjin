@@ -7,7 +7,7 @@
 window.SITE = {
 
   meta: {
-    title: "THE BONJIN｜宮崎から、つくる。学生の開発集団",
+    title: "THE BONJIN｜宮崎の学生開発集団 — 名刺・ホームページ・アプリ制作（全国オンライン対応）",
     vol: "VOL. 0",
     updated: "2026-11-25",
   },
@@ -48,14 +48,14 @@ window.SITE = {
   hero: {
     place: "MIYAZAKI, JAPAN — 31.9°N 131.4°E",
     copy: ["宮崎から、", "つくる。"],
-    sub: "宮崎の学生がつくる、ホームページ・アプリ・ゲーム・Tシャツ。",
+    sub: "宮崎の学生がつくる、ホームページ・アプリ・ゲーム・Tシャツ。全国どこからでも、オンラインで。",
   },
 
   intro: {
     label: "About",
     heading: ["宮崎で、", "凡人がつくる。"],
     body: [
-      "ゲームとアプリを作る、宮崎の学生の開発集団です。",
+      "ゲームとアプリを作る、宮崎の学生の開発集団です。ホームページや名刺の制作、AIでの業務改善も、全国からオンラインで受け付けています。",
     ],
   },
 
@@ -75,7 +75,7 @@ window.SITE = {
       ["拠点", "宮崎県（宮崎大学）／東京"],
       ["事業", "ホームページ制作／名刺 × ホームページ 同時開発／アプリ・システム開発／アプリ開発／ゲーム開発／Tシャツ事業"],
       ["メンバー", "6人"],
-      ["対応エリア", "宮崎県を中心に（メールでのご相談は県外からも受け付けます）"],
+      ["対応エリア", "全国（オンラインで対応。宮崎県内は対面も可）"],
       ["連絡先", "itwoshiyou@gmail.com"],
     ],
   },
@@ -95,7 +95,7 @@ window.SITE = {
         points: ["企画と文章の整理", "デザイン", "実装（動きのある演出も）", "公開・独自ドメインの設定"],
         examples: ["中小企業の会社紹介サイト", "店舗の、営業時間と地図が分かるページ"],
         works: [
-          ["THE BONJIN 公式サイト（このサイト）", "https://bonjin.gitpullpull.me", "企画・デザイン・実装・WebGL作品"],
+          ["THE BONJIN 公式サイト（このサイト）", "https://itoshiyou.github.io/thebonjin/", "企画・デザイン・実装・WebGL作品"],
           ["page.gitpullpull.me", "https://page.gitpullpull.me", "個人のリンク集"],
         ],
       },
@@ -184,16 +184,17 @@ window.SITE = {
   about: {
     heading: "メンバーについて",
     body: [
-      "THE Bonjinは、メンバー6人で活動しています。公開しているのは尾薗圭亮、gitpullpull、伊藤しよう、生方の4人で、梶川ともう一人は COMING SOON です。メンバーの募集はしていません。",
-      "尾薗は運営・企画・制作を担います。生方は技術的サポートを担います。",
+      "THE Bonjinの中心は、尾薗圭亮と生方の2人です。サブメンバーとして、梶川、gitpullpull、伊藤しようが関わっています。メンバーの募集はしていません。",
+      "尾薗は運営・企画・制作を担います。生方（東洋大学）は技術的サポートを担い、gitpullpull の名義でも活動しています。",
     ],
     note: null,
   },
 
-  /* メンバー（台帳形式）— 6人。公開4人＋COMING SOON 2人 */
+  /* メンバー（台帳形式）— group: main＝中心メンバー、sub＝サブメンバー */
   members: [
     {
       no: "001",
+      group: "main",
       name: "尾薗 圭亮",
       page: "members/ozono.html",
       reading: "OZONO KEITO",
@@ -214,12 +215,42 @@ window.SITE = {
     },
     {
       no: "002",
+      group: "main",
+      name: "生方",
+      page: "members/gitpullpull.html",
+      reading: "UBUKATA",
+      role: "技術的サポート",
+      tags: ["東洋大学"],
+      bio: "東洋大学。THE Bonjinでは技術的サポートを担当し、このサイトの編集と実装も手がけた。gitpullpull の名義でも活動していて、研究や受賞歴はそちらにまとめている。",
+      facts: [
+        ["所属", "東洋大学"],
+        ["別名義", "gitpullpull"],
+      ],
+      links: [
+        ["X", "https://x.com/gitpullpull", "@gitpullpull"],
+        ["GitHub", "https://github.com/gitpullpull", "gitpullpull"],
+      ],
+    },
+    {
+      no: "003",
+      group: "sub",
+      name: "梶川",
+      reading: "KAJIKAWA",
+      role: "COMING SOON",
+      tags: [],
+      bio: null,
+      facts: [],
+      links: [],
+    },
+    {
+      no: "004",
+      group: "sub",
       name: "gitpullpull",
       page: "members/gitpullpull.html",
       reading: "GITPULLPULL",
       role: "運営",
-      tags: ["ML Engineer", "人工知能学会'26 全国大会優秀賞"],
-      bio: "小型言語モデルが考えすぎる問題（overthinking）を抑える研究「D-CoT」で、2026年度 人工知能学会全国大会 優秀賞を単著で受賞。セキュリティキャンプ2024修了、CODE BLUE 2025 学生スタッフ。THE Bonjinでは運営を担当する。このサイトの編集と実装も担当。",
+      tags: ["生方の別名義", "東洋大学", "ML Engineer", "人工知能学会'26 全国大会優秀賞"],
+      bio: "生方（東洋大学）の別名義。小型言語モデルが考えすぎる問題（overthinking）を抑える研究「D-CoT」で、2026年度 人工知能学会全国大会 優秀賞を単著で受賞。セキュリティキャンプ2024修了、CODE BLUE 2025 学生スタッフ。THE Bonjinでは運営を担当する。このサイトの編集と実装も担当。",
       facts: [
         ["研究", "D-CoT: Disciplined Chain-of-Thought（小型LLMの推論効率化）"],
         ["受賞", "人工知能学会 全国大会優秀賞（2026・単著）"],
@@ -234,17 +265,8 @@ window.SITE = {
       ],
     },
     {
-      no: "003",
-      name: "梶川",
-      reading: "KAJIKAWA",
-      role: "COMING SOON",
-      tags: [],
-      bio: null,
-      facts: [],
-      links: [],
-    },
-    {
-      no: "004",
+      no: "005",
+      group: "sub",
       name: "伊藤しよう",
       reading: "ITO SHIYOU",
       role: "ウェブで公開されているゲームの公開を担当",
@@ -262,17 +284,8 @@ window.SITE = {
       ],
     },
     {
-      no: "005",
-      name: "生方",
-      reading: "UBUKATA",
-      role: "技術的サポート",
-      tags: [],
-      bio: null, // 詳細は本人の回答で v2 確定
-      facts: [],
-      links: [],
-    },
-    {
       no: "006",
+      group: "sub",
       name: "COMING SOON",
       reading: "",
       role: "",
@@ -303,12 +316,10 @@ window.SITE = {
     credits: [
       ["発行", "THE BONJIN"],
       ["編集・実装", "gitpullpull"],
-      ["メンバー", "尾薗圭亮 ／ gitpullpull ／ 梶川 ／ 伊藤しよう ／ 生方 ／ ほか"],
+      ["メンバー", "尾薗圭亮 ／ 生方（サブ：梶川 ／ gitpullpull ／ 伊藤しよう）／ ほか"],
     ],
     links: [
-      ["旧サイト", "https://itoshiyou.github.io/thebonjin/"],
-      ["GitHub (itoshiyou/thebonjin)", "https://github.com/itoshiyou/thebonjin"],
-      ["仕事の依頼・相談", "#services"],
+            ["仕事の依頼・相談", "#services"],
       ["AI業務改善（中小企業向け）", "ai.html"],
       ["作品「九十度」", "art/02-kyujudo/index.html"],
       ["作品「足跡」", "art/03-ashiato/index.html"],

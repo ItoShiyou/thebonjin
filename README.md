@@ -88,3 +88,11 @@
 ## 未確定
 - 運営母体の文章は仮文（content.js の about、[仮]→「仮文」タグ表示）。尾薗の原稿待ち
 - 「伊藤しょう／しよう」表記は未統一（モックはLINE表記「しょう」）
+
+## v10 — 自分のリポジトリ（ItoShiyou/thebonjin）へ移行・SEO／AIO（2026-11-26）
+
+- 公開先：https://itoshiyou.github.io/thebonjin/ （GitHub Pages、main ブランチのルート）
+- メンバー表示：中心メンバー（尾薗・生方）とサブメンバー（梶川・gitpullpull・伊藤しよう）に分けた（content.js の `group`）
+- 対応エリアを全国（オンライン）に。旧サイトへのリンクを削除
+- SEO／AIO：`python3 tools/seo.py` で各ページの title・description・canonical・OGP・構造化データ（JSON-LD、FAQ含む）と、`sitemap.xml`・`robots.txt`・`llms.txt` をまとめて書き出す。LPの「よくある質問」を直したら再実行する
+- 独自ドメイン（例：thebonjin.com）に移るときは、`tools/seo.py` の `BASE` を変えて再実行し、`CNAME` を置く

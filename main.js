@@ -104,7 +104,10 @@
       } else {
         detail = '<div class="row-detail"><p class="soon en">Coming soon</p></div>';
       }
-      return '<div class="row">' +
+      var GROUP = { main: "中心メンバー", sub: "サブメンバー" };
+      var head = (m.group && (i === 0 || S.members[i - 1].group !== m.group))
+        ? '<p class="ledger-group">' + esc(GROUP[m.group] || m.group) + "</p>" : "";
+      return head + '<div class="row">' +
         '<button class="row-main" type="button" aria-expanded="false">' +
         '<span class="row-no en">' + esc(m.no) + "</span>" +
         '<span class="row-name">' + esc(m.name) +

@@ -1,0 +1,33 @@
+# THE BONJIN（ザ・ボンジン）
+
+> 宮崎を拠点に、ゲームとアプリを作る学生の開発集団。名刺とホームページの制作、中小企業のAI業務改善、iPhoneアプリ・ゲーム開発を、全国からオンラインで受け付けている（宮崎県内は対面も可）。相談は無料。
+
+- 拠点：宮崎県（宮崎大学）／東京
+- 対応エリア：日本全国（オンライン）
+- 相談の窓口：各サービスページの相談フォーム（例：https://itoshiyou.github.io/thebonjin/web.html#contact）
+- 公式LINE：https://line.me/R/ti/p/@629zrowt
+
+## サービスと料金
+
+- [名刺 × ホームページ](https://itoshiyou.github.io/thebonjin/web.html)：名刺とスマホ向けホームページを同じデザインで制作。税込7,500円（名刺100枚の印刷代込み、修正2回まで、独自ドメインは含まない）。会社のホームページ単体は応相談。
+- [学割 名刺＋ホームページ](https://itoshiyou.github.io/thebonjin/student.html)：学生・新社会人向け。税込4,980円ポッキリ（名刺100枚の印刷代込み、修正2回まで、独自ドメインなし）。
+- [AI業務改善支援](https://itoshiyou.github.io/thebonjin/ai.html)：中小企業向け。現場の困りごとを聞き取り、AIで試せる業務を一つ選んで試作し、社内で使えるテンプレートと手順書にまとめる。初回ヒアリング無料。使うツールが決まっていなくても相談できる。
+- アプリ開発・ゲーム開発・システム開発：企画から App Store 公開まで。料金は応相談。
+- Tシャツ制作：準備中。
+
+## 実績
+
+- [App Store 公開中のアプリ 6本](https://itoshiyou.github.io/thebonjin/apps.html)：ロウソク行脚／光の窓割り／Focus Wave／おもいで百貨店／ハンダン／つみあげ出前
+- D-CoT（小型LLMの推論効率化の研究）：人工知能学会 全国大会優秀賞（2026・単著、gitpullpull）https://arxiv.org/abs/2602.21786
+
+## メンバー
+
+- [尾薗圭亮](https://itoshiyou.github.io/thebonjin/members/ozono.html)：運営・企画・制作。宮崎大学医学部医学科。
+- [生方](https://itoshiyou.github.io/thebonjin/members/gitpullpull.html)：技術的サポート。東洋大学。gitpullpull 名義でも活動。
+- サブメンバー：梶川、gitpullpull、伊藤しよう
+
+## よくある質問
+
+- 宮崎県外からでも頼める？ → はい。やりとりはフォーム・メール・オンラインで行い、全国から受け付ける。
+- 文章や写真がなくても頼める？ → はい。何を載せるかの整理から一緒に考える。
+- 学生に任せて大丈夫？ → 聞き取り・試作・説明は学生チームが担当する。詳しくは各ページの「よくある質問」を参照。
