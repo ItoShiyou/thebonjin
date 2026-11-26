@@ -34,6 +34,7 @@
       <a href="#message">想い</a>
       <a href="#members">メンバー</a>
       <a href="#products">実績</a>
+      <a href="#tech">技術</a>
       <a class="nav-cta" href="#contact">お問い合わせ</a>
     </nav>
   </div>
@@ -112,6 +113,27 @@
     </div>
   </section>
 
+  <section id="tech" class="block">
+    <div class="wrap">
+      <div class="tech-head">
+        <p class="label en">Technology — 一滴</p>
+        <h2>ブラウザの中で、<br class="sp">水を計算する。</h2>
+        <p class="tech-lead">墨が一滴、水に落ちて「凡人」の字になり、また崩れていく作品です。動画ではありません。水の流れを、あなたの端末の GPU がその場で計算しています。指やマウスで水に触れると、墨が動きます。</p>
+      </div>
+      <figure class="tech-frame" id="tech-frame">
+        <iframe data-src="art/01-itteki/index.html" title="一滴 — 水の流れをリアルタイムで計算する作品" loading="lazy" allow="fullscreen"></iframe>
+        <button class="tech-start" type="button">作品を動かす</button>
+      </figure>
+      <ul class="tech-points">
+        <li><b>WebGL2 で流体を計算</b><span>水の速度と墨の濃さを GPU 上の格子で毎フレーム解き直す。追加のソフトは不要で、ブラウザだけで動く。</span></li>
+        <li><b>墨の細い筋を残す</b><span>セミラグランジュ法の移流に MacCormack 法の補正を重ね、墨の筋がにじんで消えないようにしている。</span></li>
+        <li><b>渦と字のかたち</b><span>渦度の保持で水の渦を保ち、字の輪郭に向かう力で墨を「凡人」の形に集めている。</span></li>
+        <li><b>重い端末でも止まらない</b><span>描画が追いつかないときは、カクつかせる代わりに自動で解像度を下げる。</span></li>
+      </ul>
+      <p class="more center"><a href="art/01-itteki/index.html" target="_blank" rel="noopener">全画面で見る ↗</a>　<a href="#services">この技術で、ホームページやアプリをつくる →</a></p>
+    </div>
+  </section>
+
   <section id="company" class="block">
     <div class="wrap two">
       <div class="sec-title">
@@ -153,5 +175,11 @@
 <script src="content.js"></script>
 <script src="main.js"></script>
 <script src="bg.js"></script>
+<script>
+(function(){var f=document.getElementById("tech-frame");if(!f)return;var fr=f.querySelector("iframe"),b=f.querySelector(".tech-start");
+function go(){if(fr.src)return;fr.src=fr.getAttribute("data-src");f.classList.add("on");}
+b.addEventListener("click",go);
+if("IntersectionObserver"in window&&!matchMedia("(prefers-reduced-motion: reduce)").matches){new IntersectionObserver(function(es,o){es.forEach(function(e){if(e.isIntersecting){go();o.disconnect();}});},{rootMargin:"200px"}).observe(f);}})();
+</script>
 </body>
 </html>

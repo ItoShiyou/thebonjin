@@ -550,3 +550,16 @@ nav.top .logo,nav.top ul a{white-space:nowrap}
 .lp-form-status a,.lp-form .lp-end-hint a{color:var(--paper)}
 .lp-form-status:focus{outline:none}
 .lp-form.is-sent label,.lp-form.is-sent .ai-form-warn,.lp-form.is-sent button{display:none}
+
+/* ---------- tech（一滴の埋め込み） ---------- */
+.tech-head{max-width:720px;margin:0 auto 40px;text-align:center}
+.tech-head h2{margin:14px 0 22px}
+.tech-lead{font-size:15px;color:var(--ink-soft);line-height:2}
+.tech-frame{position:relative;margin:0 auto;aspect-ratio:16/9;max-height:78vh;background:#FFFEFB;border:1px solid var(--line);box-shadow:0 24px 60px rgba(58,46,36,.14);overflow:hidden}
+.tech-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0;display:block}
+.tech-start{position:absolute;inset:0;margin:auto;width:max-content;height:max-content;padding:14px 28px;background:var(--ink);color:var(--paper);border:0;font:inherit;font-size:14px;letter-spacing:.14em;cursor:pointer}
+.tech-frame.on .tech-start{display:none}
+.tech-points{list-style:none;display:grid;grid-template-columns:repeat(2,1fr);gap:0 40px;margin:44px auto 0;max-width:960px}
+.tech-points li{border-top:1px solid var(--line);padding:16px 2px;font-size:14px;color:var(--ink-soft);line-height:1.9}
+.tech-points b{display:block;font-family:var(--font-serif);font-size:16px;color:var(--ink);letter-spacing:.08em;margin-bottom:4px}
+@media(max-width:860px){.tech-frame{aspect-ratio:4/5}.tech-points{grid-template-columns:1fr}}
