@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>制作事例：THE BONJIN 公式サイトのつくり方｜ホームページ制作 — THE BONJIN</title>
+<meta name="description" content="学生開発集団 THE BONJIN が自分たちの公式サイトをつくった事例。事業の整理、セピアのデザイン、WebGLの作品、専用ページ3本、フォームからのメール送信、構造化データとSearch Consoleまで、約1週間・サーバー代0円で公開した手順を書いています。">
+<link rel="canonical" href="https://itoshiyou.github.io/thebonjin/works/site.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="THE BONJIN">
+<meta property="og:title" content="制作事例：THE BONJIN 公式サイトのつくり方｜ホームページ制作 — THE BONJIN">
+<meta property="og:description" content="学生開発集団 THE BONJIN が自分たちの公式サイトをつくった事例。事業の整理、セピアのデザイン、WebGLの作品、専用ページ3本、フォームからのメール送信、構造化データとSearch Consoleまで、約1週間・サーバー代0円で公開した手順を書いています。">
+<meta property="og:url" content="https://itoshiyou.github.io/thebonjin/works/site.html">
+<meta property="og:image" content="https://itoshiyou.github.io/thebonjin/assets/poster2.png">
+<meta property="og:locale" content="ja_JP">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="../assets/logo.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;1,400;1,500&family=Shippori+Mincho:wght@500;600;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../style.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Article","@id":"https://itoshiyou.github.io/thebonjin/works/site.html#article","headline":"このサイトの、つくり方。","about":{"@id":"https://itoshiyou.github.io/thebonjin/web.html#service"},"author":{"@id":"https://itoshiyou.github.io/thebonjin/#org"},"publisher":{"@id":"https://itoshiyou.github.io/thebonjin/#org"},"datePublished":"2026-11-26","inLanguage":"ja","url":"https://itoshiyou.github.io/thebonjin/works/site.html","image":"https://itoshiyou.github.io/thebonjin/assets/poster2.png"},{"@type":"WebPage","@id":"https://itoshiyou.github.io/thebonjin/works/site.html#webpage","url":"https://itoshiyou.github.io/thebonjin/works/site.html","name":"制作事例：THE BONJIN 公式サイトのつくり方｜ホームページ制作 — THE BONJIN","description":"学生開発集団 THE BONJIN が自分たちの公式サイトをつくった事例。事業の整理、セピアのデザイン、WebGLの作品、専用ページ3本、フォームからのメール送信、構造化データとSearch Consoleまで、約1週間・サーバー代0円で公開した手順を書いています。","inLanguage":"ja","isPartOf":{"@id":"https://itoshiyou.github.io/thebonjin/#website"},"about":{"@id":"https://itoshiyou.github.io/thebonjin/#org"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"THE BONJIN","item":"https://itoshiyou.github.io/thebonjin/"},{"@type":"ListItem","position":2,"name":"制作事例：このサイトのつくり方","item":"https://itoshiyou.github.io/thebonjin/works/site.html"}]}]}</script>
+</head>
+<body class="sub">
+<div class="bg" aria-hidden="true">
+  <iframe id="bg-frame" src="../art/02-kyujudo/index.html?bg=1&amp;tone=sepia" title="九十度" tabindex="-1"></iframe>
+  <video id="bg-video" src="../assets/ink-loop-v2.mp4" poster="../assets/poster2.png" autoplay muted loop playsinline hidden></video>
+</div>
+<div class="wrap subpage">
+  <nav class="top">
+    <a class="logo" href="../index.html">THE BONJIN</a>
+    <ul>
+      <li><a href="../web.html">名刺×ホームページ</a></li>
+      <li><a href="../ai.html">AI業務改善</a></li>
+      <li><a href="../index.html#services">仕事</a></li>
+      <li><a href="../index.html">トップ</a></li>
+    </ul>
+  </nav>
+
+  <section>
+    <p class="cat-no mono">№ 01 — CASE STUDY</p>
+    <h1 class="m-name palt">このサイトの、<br>つくり方。</h1>
+    <p class="m-sub mono">THE BONJIN 公式サイト ／ ホームページ制作の事例</p>
+    <div class="body-text" style="margin-top:28px">
+      <p>いま見ているこのサイトは、THE BONJIN が自分たちで企画・デザイン・実装したものです。お客さんの事例ではありませんが、ご依頼いただいたときと同じ手順で、同じ道具を使ってつくっています。何に困っていて、何をして、どうなったかを、そのまま書きます。</p>
+    </div>
+    <ul class="facts m-facts">
+      <li><span class="k">種類</span><span>団体の公式サイト＋サービスごとの専用ページ（LP）3本</span></li>
+      <li><span class="k">期間</span><span>2026年11月18日に初版を公開 → 11月26日に現在の形（約1週間）</span></li>
+      <li><span class="k">公開費用</span><span>サーバー代 0円（GitHub Pages で公開。独自ドメインは未使用）</span></li>
+      <li><span class="k">担当</span><span>THE BONJIN（尾薗・生方）</span></li>
+    </ul>
+  </section>
+
+  <section>
+    <p class="m-h mono">困っていたこと — BEFORE</p>
+    <div class="body-text">
+      <p>アプリやゲームを作っていても、それを「仕事として頼めます」と伝える場所がありませんでした。事業が6つあるのに、どれを誰に向けて出せばいいかが整理できておらず、問い合わせの窓口もメールアドレスが1つあるだけ。検索しても、名前で探さない限り見つからない状態でした。</p>
+    </div>
+  </section>
+
+  <section>
+    <p class="m-h mono">やったこと — WHAT WE DID</p>
+    <ul class="facts m-facts">
+      <li><span class="k">1. 整理</span><span>6つの事業を「受付中／準備中」に分け、一番頼まれやすい「名刺×ホームページ」を前に出すと決めた。料金は税込7,500円、学生向けは4,980円と、ページに書ける形まで決めた。</span></li>
+      <li><span class="k">2. デザイン</span><span>「宮崎から、つくる。」を軸に、セピアの紙の色と明朝体でまとめた。スマホで最初に見える画面に、何の団体で何を頼めるかが入るようにした。</span></li>
+      <li><span class="k">3. 動き</span><span>背景の墨と、<a href="../index.html#tech">水滴の作品「一滴」</a>は、動画ではなくブラウザの中で計算して描いている（WebGL2）。重い端末では自動で画質を下げ、表示が止まらないようにした。</span></li>
+      <li><span class="k">4. 専用ページ</span><span><a href="../web.html">名刺×ホームページ</a>、<a href="../student.html">学割</a>、<a href="../ai.html">AI業務改善</a>の3本を、相手ごとに言葉を変えて用意した。</span></li>
+      <li><span class="k">5. 問い合わせ</span><span>各ページのフォームから、そのままメールで届くようにした。届くメールは「項目｜内容」の表になり、件名にお名前と種類が入る。送れなかったときは、同じ内容のメールの下書きを出す。</span></li>
+      <li><span class="k">6. 検索とAI</span><span>ページごとにタイトルと説明文を書き分け、料金・対応エリア・よくある質問（17問）を検索エンジンとAIが読める形（構造化データ）で埋め込んだ。AI向けの案内ファイル（llms.txt）とサイトマップを置き、Google Search Console に登録した。</span></li>
+    </ul>
+  </section>
+
+  <section>
+    <p class="m-h mono">どうなったか — AFTER</p>
+    <div class="body-text">
+      <p>「何を、いくらで、どこまで頼めるか」が、どのページからでも分かるようになりました。相談はフォームから一言だけでも送れ、届いた内容はメールで一覧できます。検索での表示は登録したばかりなので、結果が出しだいこのページに追記します。</p>
+    </div>
+  </section>
+
+  <section>
+    <p class="m-h mono">同じことを、あなたのお店や会社でも</p>
+    <div class="body-text">
+      <p>名刺とホームページをそろえる場合は税込7,500円から。会社やお店のホームページ、AIでの業務の見直しは、内容をうかがってお見積もりします。全国どこからでも、オンラインで相談できます。</p>
+    </div>
+    <div class="m-links">
+      <a href="../web.html#contact"><span>名刺×ホームページを相談する</span><span class="v">無料</span></a>
+      <a href="../ai.html#contact"><span>AI業務改善を相談する</span><span class="v">初回ヒアリング 0円</span></a>
+    </div>
+  </section>
+  <p class="m-back"><a href="../index.html#services">← 仕事の一覧に戻る</a></p>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div class="colophon">
+      <span>© 2026 THE BONJIN</span>
+      <span class="mono">CASE 01 — VOL.0</span>
+    </div>
+  </div>
+</footer>
+<script src="../bg.js"></script>
+</body>
+</html>

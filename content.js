@@ -96,6 +96,7 @@ window.SITE = {
         examples: ["中小企業の会社紹介サイト", "店舗の、営業時間と地図が分かるページ"],
         works: [
           ["THE BONJIN 公式サイト（このサイト）", "https://itoshiyou.github.io/thebonjin/", "企画・デザイン・実装・WebGL作品"],
+          ["制作事例：このサイトのつくり方", "works/site.html", "困っていたこと・やったこと・どうなったか"],
           ["page.gitpullpull.me", "https://page.gitpullpull.me", "個人のリンク集"],
         ],
       },
@@ -320,6 +321,7 @@ window.SITE = {
     ],
     links: [
             ["仕事の依頼・相談", "#services"],
+      ["制作事例：このサイトのつくり方", "works/site.html"],
       ["AI業務改善（中小企業向け）", "ai.html"],
       ["作品「九十度」", "art/02-kyujudo/index.html"],
       ["作品「足跡」", "art/03-ashiato/index.html"],

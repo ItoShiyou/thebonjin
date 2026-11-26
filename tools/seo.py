@@ -65,6 +65,10 @@ PAGES = {
    extra=lambda u: [{"@type": "ItemList", "name": "App Store 公開中のアプリ", "itemListElement": [
      {"@type": "ListItem", "position": i + 1, "item": {"@type": "MobileApplication", "name": n, "url": l, "applicationCategory": c, "operatingSystem": "iOS", "author": {"@id": BASE + "members/ozono.html#person"}}}
      for i, (n, l, c) in enumerate(APPS)]}]),
+ "works/site.html": dict(path="works/site.html", crumb="制作事例：このサイトのつくり方",
+   title="制作事例：THE BONJIN 公式サイトのつくり方｜ホームページ制作 — THE BONJIN",
+   desc="学生開発集団 THE BONJIN が自分たちの公式サイトをつくった事例。事業の整理、セピアのデザイン、WebGLの作品、専用ページ3本、フォームからのメール送信、構造化データとSearch Consoleまで、約1週間・サーバー代0円で公開した手順を書いています。",
+   extra=lambda u: [{"@type": "Article", "@id": u + "#article", "headline": "このサイトの、つくり方。", "about": {"@id": BASE + "web.html#service"}, "author": {"@id": ORG_ID}, "publisher": {"@id": ORG_ID}, "datePublished": "2026-11-26", "inLanguage": "ja", "url": u, "image": BASE + "assets/poster2.png"}]),
  "members/ozono.html": dict(path="members/ozono.html", crumb="尾薗圭亮",
    title="尾薗圭亮（宮崎大学医学部）— THE BONJIN",
    desc="尾薗圭亮（OZONO KEITO）。宮崎大学医学部医学科。THE BONJIN の運営・企画・制作を担当。App Store に自作アプリ6本を公開中。",
@@ -110,7 +114,7 @@ for f, d in PAGES.items():
 # ---- robots.txt / sitemap.xml / llms.txt ----
 import datetime
 today = datetime.date.today().isoformat()
-pri = {"": "1.0", "web.html": "0.9", "student.html": "0.9", "ai.html": "0.9", "apps.html": "0.6"}
+pri = {"": "1.0", "web.html": "0.9", "student.html": "0.9", "ai.html": "0.9", "works/site.html": "0.8", "apps.html": "0.6"}
 (ROOT / "sitemap.xml").write_text('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + "".join(
     f"  <url><loc>{BASE + d['path']}</loc><lastmod>{today}</lastmod><priority>{pri.get(d['path'], '0.5')}</priority></url>\n" for d in PAGES.values()) + "</urlset>\n", encoding="utf-8")
 (ROOT / "robots.txt").write_text(f"User-agent: *\nAllow: /\nDisallow: /shots/\n\nSitemap: {BASE}sitemap.xml\n", encoding="utf-8")
@@ -133,6 +137,7 @@ pri = {"": "1.0", "web.html": "0.9", "student.html": "0.9", "ai.html": "0.9", "a
 
 ## 実績
 
+- [制作事例：このサイトのつくり方]({BASE}works/site.html)：事業の整理からデザイン、WebGL作品、専用ページ3本、フォーム、構造化データまで約1週間・サーバー代0円で公開した事例
 - [App Store 公開中のアプリ 6本]({BASE}apps.html)：ロウソク行脚／光の窓割り／Focus Wave／おもいで百貨店／ハンダン／つみあげ出前
 - D-CoT（小型LLMの推論効率化の研究）：人工知能学会 全国大会優秀賞（2026・単著、gitpullpull）https://arxiv.org/abs/2602.21786
 

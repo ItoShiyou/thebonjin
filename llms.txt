@@ -17,6 +17,7 @@
 
 ## 実績
 
+- [制作事例：このサイトのつくり方](https://itoshiyou.github.io/thebonjin/works/site.html)：事業の整理からデザイン、WebGL作品、専用ページ3本、フォーム、構造化データまで約1週間・サーバー代0円で公開した事例
 - [App Store 公開中のアプリ 6本](https://itoshiyou.github.io/thebonjin/apps.html)：ロウソク行脚／光の窓割り／Focus Wave／おもいで百貨店／ハンダン／つみあげ出前
 - D-CoT（小型LLMの推論効率化の研究）：人工知能学会 全国大会優秀賞（2026・単著、gitpullpull）https://arxiv.org/abs/2602.21786
 
