@@ -563,3 +563,14 @@ nav.top .logo,nav.top ul a{white-space:nowrap}
 .tech-points li{border-top:1px solid var(--line);padding:16px 2px;font-size:14px;color:var(--ink-soft);line-height:1.9}
 .tech-points b{display:block;font-family:var(--font-serif);font-size:16px;color:var(--ink);letter-spacing:.08em;margin-bottom:4px}
 @media(max-width:860px){.tech-frame{aspect-ratio:4/5}.tech-points{grid-template-columns:1fr}}
+
+/* サブメンバーの開閉 */
+.ledger-sub{border-bottom:1px solid var(--line)}
+.ledger-sub>summary{list-style:none;display:grid;grid-template-columns:auto 1fr 20px;gap:16px;align-items:center;padding:22px 4px;cursor:pointer;font-size:13px;letter-spacing:.2em;color:var(--body)}
+.ledger-sub>summary::-webkit-details-marker{display:none}
+.ledger-sub>summary:hover{color:var(--accent)}
+.ledger-sub-names{font-size:12px;letter-spacing:.08em;color:var(--body);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ledger-sub[open] .ledger-sub-names{visibility:hidden}
+.ledger-sub>summary .plus{justify-self:end}
+.ledger-sub[open]>summary .plus::after{transform:rotate(0)}
+.ledger-sub>.row:last-child{border-bottom:none}

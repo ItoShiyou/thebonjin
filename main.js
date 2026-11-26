@@ -89,7 +89,7 @@
   set("#about-body", paras(S.about.body));
   var ledger = $("#ledger");
   if (ledger) {
-    ledger.innerHTML = S.members.map(function (m, i) {
+    var rowHTML = function (m) {
       var detail;
       if (m.bio) {
         detail = '<div class="row-detail"><p>' + esc(m.bio) + "</p>" +
@@ -104,10 +104,7 @@
       } else {
         detail = '<div class="row-detail"><p class="soon en">Coming soon</p></div>';
       }
-      var GROUP = { main: "中心メンバー", sub: "サブメンバー" };
-      var head = (m.group && (i === 0 || S.members[i - 1].group !== m.group))
-        ? '<p class="ledger-group">' + esc(GROUP[m.group] || m.group) + "</p>" : "";
-      return head + '<div class="row">' +
+      return '<div class="row">' +
         '<button class="row-main" type="button" aria-expanded="false">' +
         '<span class="row-no en">' + esc(m.no) + "</span>" +
         '<span class="row-name">' + esc(m.name) +
@@ -115,7 +112,16 @@
         '<span class="row-role">' + esc(m.role) + "</span>" +
         '<span class="plus" aria-hidden="true"></span>' +
         "</button>" + detail + "</div>";
-    }).join("");
+    };
+    /* 中心メンバーは常に表示、サブメンバー（COMING SOON を含む）は開閉できるまとまりにする */
+    var mains = S.members.filter(function (m) { return m.group !== "sub"; });
+    var subs = S.members.filter(function (m) { return m.group === "sub"; });
+    ledger.innerHTML =
+      (subs.length ? '<p class="ledger-group">中心メンバー</p>' : "") +
+      mains.map(rowHTML).join("") +
+      (subs.length ? '<details class="ledger-sub"><summary><span>サブメンバー</span>' +
+        '<span class="ledger-sub-names">' + esc(subs.map(function (m) { return m.name; }).join(" ／ ")) + "</span>" +
+        '<span class="plus" aria-hidden="true"></span></summary>' + subs.map(rowHTML).join("") + "</details>" : "");
     ledger.addEventListener("click", function (e) {
       var btn = e.target.closest(".row-main");
       if (!btn) return;
