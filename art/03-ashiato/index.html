@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>足跡 — THE Bonjin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@400;500;800&display=swap" rel="stylesheet">
+<style>
+  :root { --paper:#FFFEFB; --sumi:#201515; --dai:#FF4F00; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  html,body { height:100%; background:var(--paper); overflow:hidden; }
+  body { color:var(--sumi); font-family:"Shippori Mincho B1","Noto Serif CJK JP","Noto Serif JP","Yu Mincho",serif;
+    -webkit-font-smoothing:antialiased; cursor:default; touch-action:none; user-select:none; -webkit-user-select:none; }
+  canvas#c { position:fixed; inset:0; width:100%; height:100%; display:block; }
+  .ui { position:fixed; pointer-events:none; opacity:0; transition:opacity 3s ease 1.2s; mix-blend-mode:multiply; }
+  body.on .ui { opacity:1; }
+  .mark { left:clamp(20px,3.2vw,48px); bottom:clamp(20px,3.2vw,44px); font-size:13px; letter-spacing:.34em; font-weight:500; }
+  .mark i { display:inline-block; width:6px; height:6px; border-radius:50%; background:var(--dai); margin-left:.5em; transform:translateY(-1px); }
+  .count { right:clamp(20px,3.2vw,48px); bottom:clamp(20px,3.2vw,44px); font-size:11px; letter-spacing:.3em; text-align:right; white-space:nowrap; }
+  body.on .count { opacity:.6; }
+  .count em { font-style:normal; color:var(--dai); }
+  .hint { left:50%; bottom:clamp(20px,3.2vw,44px); transform:translateX(-50%); font-size:11px; letter-spacing:.5em; white-space:nowrap; }
+  body.on .hint { opacity:.42; }
+  body.touched .hint { opacity:0; transition:opacity 2s ease; }
+  .say { position:fixed; top:clamp(28px,9vh,96px); right:clamp(24px,5.2vw,84px); writing-mode:vertical-rl; pointer-events:none;
+    font-size:clamp(13px,1.15vw,17px); letter-spacing:.42em; line-height:2.6; height:76vh; mix-blend-mode:multiply; }
+  .say span { display:inline-block; opacity:0; filter:blur(8px); transition:opacity 1.6s ease, filter 1.8s ease; }
+  .say span.in { opacity:.92; filter:blur(0); }
+  .say span.out { opacity:0; filter:blur(10px); transition-duration:1.4s,1.4s; }
+  .say em { font-style:normal; color:var(--dai); }
+  @media (max-aspect-ratio: 4/5) { .say { font-size:12px; right:14px; top:18px; height:60vh; line-height:2.2; } .hint{ display:none; } }
+  .nogl { position:fixed; inset:0; display:none; align-items:center; justify-content:center; font-size:14vw; font-weight:800; }
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<div class="nogl" id="nogl">凡人</div>
+<div class="say" id="say" aria-live="polite"></div>
+<div class="ui mark">THE Bonjin<i></i></div>
+<div class="ui hint">歩く　／　散らす</div>
+<div class="ui count" id="count"></div>
+
+<script>
+(() => {
+'use strict';
+/* 足跡 — 凡人 is not written. It is stood.
+   Thousands of small 人 walk across the paper and, for a while, stand together as a word.
+   The paper keeps every step anyone has taken. One of them is orange, and walks where you are. */
+const canvas = document.getElementById('c');
+const gl = canvas.getContext('webgl2', { alpha:false, antialias:false, depth:false, stencil:false, powerPreference:'high-performance' });
+if (!gl || !gl.getExtension('EXT_color_buffer_float')) { document.getElementById('nogl').style.display = 'flex'; return; }
+gl.getExtension('OES_texture_float_linear');
+
+const WORDS = ['凡人','途中'];
+const SAY = ['人は結果ではなく、<em>途中</em>に救われる。', 'だから、<em>途中</em>を消さない社会を作る。'];
+const FONT = '"Shippori Mincho B1","Noto Serif CJK JP","Noto Serif JP",serif';
+
+/* ───────────────────────── shaders ───────────────────────── */
+const VS = `#version 300 es
+layout(location=0) in vec2 p; out vec2 vUv; void main(){ vUv = p*.5+.5; gl_Position = vec4(p,0.,1.); }`;
+const NOISE = `
+float h21(vec2 p){ p = fract(p*vec2(123.34, 456.21)); p += dot(p, p+45.32); return fract(p.x*p.y); }
+float vn(vec2 p){ vec2 i = floor(p), f = fract(p); f = f*f*(3.-2.*f);
+  return mix(mix(h21(i), h21(i+vec2(1,0)), f.x), mix(h21(i+vec2(0,1)), h21(i+vec2(1,1)), f.x), f.y); }
+float fib(vec2 p){ return .55*vn(p*vec2(.9,.22)) + .3*vn(p*vec2(.3,1.1)+7.) + .15*vn(p*2.3); }
+`;
+// the paper: keeps what it is given, lets it bleed a little along its fibres, and lets go very slowly
+const FS_PAPER = `#version 300 es
+precision highp float; precision highp sampler2D; in vec2 vUv; out vec4 o;
+uniform sampler2D uQ; uniform vec2 px; uniform float bleed, keepS, keepO;` + NOISE + `
+void main(){
+  vec4 c = texture(uQ, vUv);
+  float f = fib(vUv/px*.5);
+  vec2 d = px*(1. + 1.4*f);
+  vec4 n = texture(uQ, vUv+vec2(d.x,0.)) + texture(uQ, vUv-vec2(d.x,0.)) + texture(uQ, vUv+vec2(0.,d.y)) + texture(uQ, vUv-vec2(0.,d.y));
+  vec4 r = mix(c, n*.25, bleed*(.35+1.3*f));
+  o = vec4(r.r*keepS, r.g*keepO, 0., 1.);
+}`;
+const VS_STEP = `#version 300 es
+precision highp float;
+layout(location=0) in vec4 a; layout(location=1) in vec4 b; layout(location=2) in vec2 st;   // x,y,size,lean | flip,kind,ink,bob | last step
+uniform vec2 res; uniform float dpr, back; out vec2 vInk;
+void main(){ vec2 p = (a.xy - st*back)/res*2.-1.; gl_Position = vec4(p.x, -p.y, 0., 1.);
+  gl_PointSize = (b.y > .5 ? 5. : 4.2)*dpr; vInk = (b.y > .5 ? vec2(0., b.z) : vec2(b.z, 0.))*.125; }`;
+const FS_STEP = `#version 300 es
+precision highp float; in vec2 vInk; out vec4 o;
+void main(){ vec2 d = (gl_PointCoord-.5)*4.; float g = exp(-dot(d,d)); o = vec4(vInk*g, 0., 1.); }`;
+const FS_SHOW = `#version 300 es
+precision highp float; precision highp sampler2D; in vec2 vUv; out vec4 o;
+uniform sampler2D uQ; uniform vec2 px;` + NOISE + `
+const vec3 PAPER = vec3(1., .99608, .98431), SUMI = vec3(.12549,.08235,.08235), DAI = vec3(1.,.30980,0.);
+void main(){
+  vec4 d = texture(uQ, vUv), m = textureLod(uQ, vUv, 3.);
+  float f = fib(vUv/px*.5);
+  // wash: pale in the belly, a touch darker where it stopped spreading
+  float edge = clamp((d.r - m.r)*1.2, -.15, .5);
+  float w = 1.-exp(-(d.r*(.75+.5*f) + edge*d.r)*.55);
+  w = min(w, .62)*.74;
+  float og = smoothstep(.02, .5, 1.-exp(-d.g*(.7+.6*f)*1.1));
+  vec3 c = mix(PAPER, SUMI, w);
+  c = mix(c, DAI, og*.92);
+  o = vec4(c, 1.);
+}`;
+const VS_MAN = `#version 300 es
+precision highp float;
+layout(location=0) in vec2 q; layout(location=1) in vec4 a; layout(location=2) in vec4 b;
+uniform vec2 res; out vec2 vT; out float vK;
+void main(){ float s = a.z; vec2 c = q; c.x *= b.x; float cs = cos(a.w), sn = sin(a.w);
+  vec2 off = vec2(c.x*cs - (c.y+.42)*sn, c.x*sn + (c.y+.42)*cs) - vec2(0., .42);   // lean pivots at the feet
+  vec2 p = (a.xy + off*s - vec2(0., b.w*s))/res*2.-1.; gl_Position = vec4(p.x, -p.y, 0., 1.);
+  vT = q + .5; vK = b.y; }`;
+const FS_MAN = `#version 300 es
+precision highp float; in vec2 vT; in float vK; uniform sampler2D uG; out vec4 o;
+const vec3 SUMI = vec3(.12549,.08235,.08235), DAI = vec3(1.,.30980,0.);
+void main(){ float al = texture(uG, vT).r; al = smoothstep(.08, .62, al); o = vec4(mix(SUMI, DAI, step(.5, vK)), al); }`;
+function sh(type, src){ const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s);
+  if(!gl.getShaderParameter(s, gl.COMPILE_STATUS)) console.error(gl.getShaderInfoLog(s)); return s; }
+function prog(v, f){ const pr = gl.createProgram(); gl.attachShader(pr, sh(gl.VERTEX_SHADER, v)); gl.attachShader(pr, sh(gl.FRAGMENT_SHADER, f)); gl.linkProgram(pr);
+  if(!gl.getProgramParameter(pr, gl.LINK_STATUS)) console.error(gl.getProgramInfoLog(pr));
+  const u = {}; const n = gl.getProgramParameter(pr, gl.ACTIVE_UNIFORMS);
+  for(let i=0;i<n;i++){ const inf = gl.getActiveUniform(pr,i); u[inf.name] = gl.getUniformLocation(pr, inf.name); } return { pr, u }; }
+const pPaper = prog(VS, FS_PAPER), pStep = prog(VS_STEP, FS_STEP), pShow = prog(VS, FS_SHOW), pMan = prog(VS_MAN, FS_MAN);
+
+const triVao = gl.createVertexArray(); gl.bindVertexArray(triVao); { const b = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, b);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 3,-1, -1,3]), gl.STATIC_DRAW); gl.enableVertexAttribArray(0); gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0); }
+const instBuf = gl.createBuffer();
+const stepVao = gl.createVertexArray(); gl.bindVertexArray(stepVao); gl.bindBuffer(gl.ARRAY_BUFFER, instBuf);
+gl.enableVertexAttribArray(0); gl.vertexAttribPointer(0, 4, gl.FLOAT, false, 40, 0); gl.enableVertexAttribArray(1); gl.vertexAttribPointer(1, 4, gl.FLOAT, false, 40, 16);
+gl.enableVertexAttribArray(2); gl.vertexAttribPointer(2, 2, gl.FLOAT, false, 40, 32);
+const manVao = gl.createVertexArray(); gl.bindVertexArray(manVao); { const b = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, b);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-.5,-.5, .5,-.5, -.5,.5, .5,.5]), gl.STATIC_DRAW); gl.enableVertexAttribArray(0); gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0); }
+gl.bindBuffer(gl.ARRAY_BUFFER, instBuf);
+gl.enableVertexAttribArray(1); gl.vertexAttribPointer(1, 4, gl.FLOAT, false, 40, 0); gl.vertexAttribDivisor(1, 1);
+gl.enableVertexAttribArray(2); gl.vertexAttribPointer(2, 4, gl.FLOAT, false, 40, 16); gl.vertexAttribDivisor(2, 1);
+gl.bindVertexArray(null);
+
+// the one glyph everyone is
+const manTex = gl.createTexture();
+function drawMan(){ const S = 128, cv = document.createElement('canvas'); cv.width = cv.height = S; const g = cv.getContext('2d');
+  g.fillStyle = '#000'; g.fillRect(0,0,S,S); g.fillStyle = '#fff'; g.textAlign = 'center'; g.textBaseline = 'middle'; g.font = `800 ${S*.9}px ${FONT}`;
+  g.fillText('人', S/2, S/2 + S*.02);
+  gl.bindTexture(gl.TEXTURE_2D, manTex); gl.texImage2D(gl.TEXTURE_2D, 0, gl.R8, gl.RED, gl.UNSIGNED_BYTE, cv); gl.generateMipmap(gl.TEXTURE_2D);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE); }
+
+/* ───────────────────────── paper ───────────────────────── */
+let W=0, H=0, dpr=1, paper=null, unit=500;
+function mkFbo(w,h){ const tex = gl.createTexture(); gl.bindTexture(gl.TEXTURE_2D, tex);
+  gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA16F, w, h, 0, gl.RGBA, gl.HALF_FLOAT, null); gl.generateMipmap(gl.TEXTURE_2D);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+  const fb = gl.createFramebuffer(); gl.bindFramebuffer(gl.FRAMEBUFFER, fb); gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, tex, 0);
+  gl.clearColor(0,0,0,1); gl.clear(gl.COLOR_BUFFER_BIT); return { tex, fb }; }
+
+/* ───────────────────────── people ───────────────────────── */
+let N = 0, px, py, vx, vy, tx, ty, spd, siz, ph, flip, wait, stun, seed, slots = [], inst, wordI = 0;
+function slotsFor(word, spacing){
+  const cv = document.createElement('canvas'); cv.width = W; cv.height = H; const g = cv.getContext('2d', { willReadFrequently:true });
+  g.fillStyle = '#000'; g.fillRect(0,0,W,H); g.fillStyle = '#fff'; g.textAlign = 'center'; g.textBaseline = 'middle';
+  const portrait = W/H < .9, chars = [...word], fs = portrait ? Math.min(W*.66, H*.36) : Math.min(H*.56, W*.37);
+  g.font = `800 ${fs}px ${FONT}`; const cx = W/2, cy = H*.485;
+  chars.forEach((ch,i) => { const k = i-(chars.length-1)/2; if(portrait) g.fillText(ch, cx, cy + k*fs*1.04); else g.fillText(ch, cx + k*fs*1.1, cy); });
+  const d = g.getImageData(0,0,W,H).data, out = [];
+  for(let y = spacing/2; y < H; y += spacing) for(let x = spacing/2 + ((Math.round(y/spacing)%2) ? spacing/2 : 0); x < W; x += spacing){
+    const jx = x + (Math.random()-.5)*spacing*.7, jy = y + (Math.random()-.5)*spacing*.7;
+    const ix = Math.max(0, Math.min(W-1, jx|0)), iy = Math.max(0, Math.min(H-1, jy|0));
+    if(d[(iy*W+ix)*4] > 127) out.push([jx, jy]); }
+  for(let i=out.length-1;i>0;i--){ const j = (Math.random()*(i+1))|0; const t = out[i]; out[i] = out[j]; out[j] = t; }
+  return out;
+}
+// pair people with places so that nobody has to cross the whole paper: strips by x, then by y
+function assign(sl){
+  const idx = new Array(N); for(let i=0;i<N;i++) idx[i] = i;
+  const K = Math.max(1, Math.round(Math.sqrt(N/3)));
+  const ord = (xs, ys) => { const a = idx.slice().sort((i,j) => xs(i)-xs(j)), out = [];
+    for(let k=0;k<K;k++){ const part = a.slice(Math.floor(k*N/K), Math.floor((k+1)*N/K)).sort((i,j) => ys(i)-ys(j)); out.push(...part); } return out; };
+  const pa = ord(i => px[i], i => py[i]), sa = ord(i => sl[i][0], i => sl[i][1]);
+  for(let k=0;k<N;k++){ const i = pa[k], s = sl[sa[k]]; tx[i] = s[0]; ty[i] = s[1]; }
+}
+function populate(){
+  const spacing = Math.max(5.2, unit/500*5.7*Math.max(1, Math.sqrt(dpr)*.8))*1;
+  slots = WORDS.map(w => slotsFor(w, spacing));
+  N = Math.min(slots[0].length, slots[1].length, 9000);
+  const F = n => new Float32Array(n);
+  px = F(N); py = F(N); vx = F(N); vy = F(N); tx = F(N); ty = F(N); spd = F(N); siz = F(N); ph = F(N); flip = F(N); wait = F(N); stun = F(N); seed = F(N);
+  inst = new Float32Array(N*10);
+  gl.bindBuffer(gl.ARRAY_BUFFER, instBuf); gl.bufferData(gl.ARRAY_BUFFER, inst.byteLength, gl.DYNAMIC_DRAW);
+  const sl = slots[0], g = () => (Math.random()+Math.random()+Math.random()-1.5)*1.15;
+  for(let i=0;i<N;i++){ seed[i] = Math.random(); tx[i] = sl[i][0]; ty[i] = sl[i][1];
+    // everybody is already on their way when the page opens
+    const far = .25 + .75*Math.pow(Math.random(), .7); px[i] = tx[i] + g()*unit*.62*far; py[i] = ty[i] + g()*unit*.5*far;
+    spd[i] = (.5 + .7*Math.random())*unit*.3; siz[i] = spacing*(1.75 + .55*Math.random()); flip[i] = Math.random()<.5 ? 1 : -1; ph[i] = Math.random()*2; wait[i] = Math.pow(Math.random(), 2)*.9; }
+  siz[0] = spacing*3.9; spd[0] = unit*.62;
+  wordI = 0; countEl.innerHTML = `${kan(N-1)}人と、<em>ひとり</em>`;
+}
+function resize(){
+  dpr = Math.min(window.devicePixelRatio||1, 2);
+  W = Math.max(2, Math.round(innerWidth*dpr)); H = Math.max(2, Math.round(innerHeight*dpr)); canvas.width = W; canvas.height = H;
+  unit = W/H < .9 ? Math.min(W*.66, H*.36) : Math.min(H*.56, W*.37);
+  if(paper){ paper.forEach(p => { gl.deleteTexture(p.tex); gl.deleteFramebuffer(p.fb); }); }
+  paper = [mkFbo(W,H), mkFbo(W,H)];
+  populate();
+}
+function goTo(i){ wordI = i; assign(slots[i]); for(let k=0;k<N;k++) wait[k] = Math.pow(seed[k], 1.6)*2.6; }
+
+/* ───────────────────────── the hand ───────────────────────── */
+const hand = { x:0, y:0, t:-99, has:false };
+const shocks = [];
+function shock(x, y, power=1){ const R = unit*.62*power;
+  for(let i=0;i<N;i++){ const dx = px[i]-x, dy = py[i]-y, r = Math.hypot(dx,dy); if(r > R) continue;
+    const k = Math.pow(1-r/R, 1.5)*(.45+1.1*Math.random())*unit*3.4*power, a = Math.atan2(dy,dx) + (Math.random()-.5)*.5;
+    vx[i] += Math.cos(a)*k; vy[i] += Math.sin(a)*k; stun[i] = .35 + Math.random()*1.1 + .8*(1-r/R); } }
+addEventListener('pointermove', e => { hand.x = e.clientX*dpr; hand.y = e.clientY*dpr; hand.t = time; hand.has = true; }, { passive:true });
+addEventListener('pointerdown', e => { hand.x = e.clientX*dpr; hand.y = e.clientY*dpr; hand.t = time; hand.has = true;
+  document.body.classList.add('touched'); shock(hand.x, hand.y); }, { passive:true });
+addEventListener('pointerleave', () => { hand.t = -99; });
+
+/* ───────────────────────── words ───────────────────────── */
+const sayEl = document.getElementById('say'), countEl = document.getElementById('count');
+const KAN = ['〇','一','二','三','四','五','六','七','八','九'];
+function kan(n){ if(n === 0) return KAN[0]; let s = ''; const u = [[1000,'千'],[100,'百'],[10,'十']];
+  for(const [v,c] of u){ const d = Math.floor(n/v); if(d){ s += (d>1 ? KAN[d] : '') + c; n -= d*v; } } return s + (n ? KAN[n] : ''); }
+let sayTimers = [];
+function say(i){ sayTimers.forEach(clearTimeout); sayTimers = []; sayEl.innerHTML = '';
+  const tmp = document.createElement('div'); tmp.innerHTML = SAY[i]; let k = 0;
+  const walk = (node, parent) => node.childNodes.forEach(c => {
+    if(c.nodeType===3) [...c.textContent].forEach(ch => { const s = document.createElement('span'); s.textContent = ch; parent.appendChild(s);
+      sayTimers.push(setTimeout(() => s.classList.add('in'), 130*k++ + Math.random()*80)); });
+    else { const em = document.createElement('em'); parent.appendChild(em); walk(c, em); } });
+  walk(tmp, sayEl);
+}
+function unsay(){ sayEl.querySelectorAll('span').forEach(s => setTimeout(() => s.classList.add('out'), Math.random()*600)); }
+
+/* ───────────────────────── time ───────────────────────── */
+const STAY = 12, FIRST = 10.5;        // seconds from one setting-out to the next
+let time = 0, T = 0, nextGo = FIRST, said = -1;
+function choreo(dt){
+  T += dt;
+  if(said !== wordI && T > nextGo - STAY + (wordI === 0 && nextGo === FIRST ? 3.4 : 5.2)){ said = wordI; say(wordI); }
+  if(T > nextGo - 1.2 && said === wordI + 10){ }
+  if(T > nextGo){ unsay(); goTo(1-wordI); nextGo += STAY; }
+}
+function walkAll(dt){
+  const t = time, orangeLed = hand.has && (t - hand.t) < 5;
+  const ox = px[0], oy = py[0], personal = unit*.04;
+  for(let i=0;i<N;i++){
+    if(wait[i] > 0){ wait[i] -= dt; }
+    let gx = tx[i], gy = ty[i], sp = spd[i];
+    if(i === 0 && orangeLed){ gx = hand.x; gy = hand.y; }
+    let dx = gx-px[i], dy = gy-py[i]; const dist = Math.hypot(dx,dy) + 1e-6; dx /= dist; dy /= dist;
+    let dvx = 0, dvy = 0;
+    if(wait[i] <= 0 || i === 0){
+      // nobody walks straight: the way bends, and bends less as the place comes near
+      const far = Math.min(1, dist/(unit*.22));
+      const a = (Math.sin(px[i]*.0061/dpr + t*.21 + seed[i]*6.) + Math.sin(py[i]*.0077/dpr - t*.17 + seed[i]*9.) + .6*Math.sin((px[i]+py[i])*.013/dpr + seed[i]*20.))*.62*far;
+      const ca = Math.cos(a), sa = Math.sin(a), wx = dx*ca - dy*sa, wy = dx*sa + dy*ca;
+      const v = Math.min(sp, dist*2.6); dvx = wx*v; dvy = wy*v;
+    }
+    // make room for the orange one
+    if(i !== 0){ const rx = px[i]-ox, ry = py[i]-oy, rr = Math.hypot(rx,ry); if(rr < personal){ const k = (1-rr/personal)*unit*.5; dvx += rx/(rr+.01)*k; dvy += ry/(rr+.01)*k; } }
+    if(stun[i] > 0){ stun[i] -= dt; const f = Math.exp(-dt*3.1); vx[i] *= f; vy[i] *= f; }
+    else { const k = 1-Math.exp(-dt*5.5); vx[i] += (dvx-vx[i])*k; vy[i] += (dvy-vy[i])*k; }
+    px[i] += vx[i]*dt; py[i] += vy[i]*dt;
+    const s = Math.hypot(vx[i], vy[i]), step = s*dt;
+    const before = Math.floor(ph[i]); ph[i] += step/(siz[i]*.42); if(Math.floor(ph[i]) !== before) flip[i] = -flip[i];
+    const walking = Math.min(1, s/(unit*.03));
+    const o = i*10; inst[o] = px[i]; inst[o+1] = py[i]; inst[o+2] = siz[i]; inst[o+3] = Math.max(-.5, Math.min(.5, vx[i]/(unit*.9)));
+    inst[o+4] = flip[i]; inst[o+5] = i === 0 ? 1 : 0;
+    // ink left behind: a little for standing, more for every step taken
+    inst[o+6] = i === 0 ? Math.min(step, 14*dpr)*.5/dpr + dt*.1 : (Math.min(step, 16*dpr)*.16/dpr + dt*.035);
+    inst[o+8] = vx[i]*dt; inst[o+9] = vy[i]*dt;
+    inst[o+7] = Math.abs(Math.sin(ph[i]*Math.PI))*.07*walking;
+  }
+}
+
+/* ───────────────────────── frame ───────────────────────── */
+let last = 0;
+function frame(now){
+  requestAnimationFrame(frame);
+  if(!last){ last = now; return; }
+  const dt = Math.min((now-last)/1000, 1/20); last = now; time += dt;
+  choreo(dt); walkAll(dt);
+  gl.bindBuffer(gl.ARRAY_BUFFER, instBuf); gl.bufferSubData(gl.ARRAY_BUFFER, 0, inst);
+  // paper remembers
+  gl.viewport(0,0,W,H); gl.bindFramebuffer(gl.FRAMEBUFFER, paper[1].fb);
+  gl.useProgram(pPaper.pr); gl.activeTexture(gl.TEXTURE0); gl.bindTexture(gl.TEXTURE_2D, paper[0].tex); gl.uniform1i(pPaper.u.uQ, 0);
+  gl.uniform2f(pPaper.u.px, 1/W, 1/H); gl.uniform1f(pPaper.u.bleed, 1-Math.exp(-dt*1.8*dpr)); gl.uniform1f(pPaper.u.keepS, Math.exp(-dt/15)); gl.uniform1f(pPaper.u.keepO, Math.exp(-dt/60));
+  gl.bindVertexArray(triVao); gl.drawArrays(gl.TRIANGLES, 0, 3);
+  gl.enable(gl.BLEND); gl.blendFunc(gl.ONE, gl.ONE);
+  gl.useProgram(pStep.pr); gl.uniform2f(pStep.u.res, W, H); gl.uniform1f(pStep.u.dpr, dpr);
+  gl.bindVertexArray(stepVao); for(let k=0;k<8;k++){ gl.uniform1f(pStep.u.back, k/8); gl.drawArrays(gl.POINTS, 0, N); }
+  paper.reverse();
+  // show
+  gl.bindFramebuffer(gl.FRAMEBUFFER, null); gl.disable(gl.BLEND);
+  gl.useProgram(pShow.pr); gl.bindTexture(gl.TEXTURE_2D, paper[0].tex); gl.generateMipmap(gl.TEXTURE_2D); gl.uniform1i(pShow.u.uQ, 0); gl.uniform2f(pShow.u.px, 1/W, 1/H);
+  gl.bindVertexArray(triVao); gl.drawArrays(gl.TRIANGLES, 0, 3);
+  gl.enable(gl.BLEND); gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+  gl.useProgram(pMan.pr); gl.uniform2f(pMan.u.res, W, H); gl.bindTexture(gl.TEXTURE_2D, manTex); gl.uniform1i(pMan.u.uG, 0);
+  gl.bindVertexArray(manVao); gl.drawArraysInstanced(gl.TRIANGLE_STRIP, 0, 4, N-1 > 0 ? N : 0);
+  // the orange one is drawn again, above everyone
+  gl.bindBuffer(gl.ARRAY_BUFFER, instBuf); gl.drawArraysInstanced(gl.TRIANGLE_STRIP, 0, 4, 1);
+  gl.disable(gl.BLEND);
+}
+addEventListener('resize', () => { clearTimeout(resize.t); resize.t = setTimeout(() => { resize(); T = 0; nextGo = FIRST; said = -1; }, 150); });
+window.__art = { get T(){return T;}, get N(){return N;}, shock, hand, get o(){ return [px[0],py[0]]; } };
+
+const boot = () => { drawMan(); resize(); document.body.classList.add('on'); requestAnimationFrame(frame); };
+const fontReady = document.fonts && document.fonts.load ? Promise.race([
+  document.fonts.load(`800 120px "Shippori Mincho B1"`, WORDS.join('')), new Promise(r => setTimeout(r, 2500)) ]) : Promise.resolve();
+fontReady.then(boot, boot);
+})();
+</script>
+</body>
+</html>
