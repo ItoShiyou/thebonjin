@@ -6,6 +6,7 @@
 - 対応エリア：日本全国（オンライン）
 - 相談の窓口：各サービスページの相談フォーム（例：https://itoshiyou.github.io/thebonjin/web.html#contact）
 - 公式LINE：https://line.me/R/ti/p/@629zrowt
+- Google マップ（ビジネスプロフィール）：https://share.google/ikNIIgEaK2S2IRcun
 
 ## サービスと料金
 
