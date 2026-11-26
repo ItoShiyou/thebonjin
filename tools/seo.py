@@ -12,7 +12,7 @@ ORG = {
   "address": {"@type": "PostalAddress", "addressRegion": "宮崎県", "addressCountry": "JP"},
   "areaServed": JP,
   "member": [{"@id": BASE + "members/ozono.html#person"}, {"@id": BASE + "members/gitpullpull.html#person"}],
-  "sameAs": ["https://line.me/R/ti/p/@629zrowt", "https://github.com/ItoShiyou/thebonjin"],
+  "sameAs": ["https://line.me/R/ti/p/@629zrowt", "https://github.com/ItoShiyou/thebonjin", "https://share.google/ikNIIgEaK2S2IRcun"],
 }
 OZONO = {"@type": "Person", "@id": BASE + "members/ozono.html#person", "name": "尾薗圭亮", "alternateName": "OZONO KEITO",
   "jobTitle": "運営・企画・制作", "affiliation": {"@type": "CollegeOrUniversity", "name": "宮崎大学 医学部医学科"},
@@ -118,6 +118,7 @@ pri = {"": "1.0", "web.html": "0.9", "student.html": "0.9", "ai.html": "0.9", "w
 (ROOT / "sitemap.xml").write_text('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + "".join(
     f"  <url><loc>{BASE + d['path']}</loc><lastmod>{today}</lastmod><priority>{pri.get(d['path'], '0.5')}</priority></url>\n" for d in PAGES.values()) + "</urlset>\n", encoding="utf-8")
 (ROOT / "robots.txt").write_text(f"User-agent: *\nAllow: /\nDisallow: /shots/\n\nSitemap: {BASE}sitemap.xml\n", encoding="utf-8")
+# llms.txt は手で直したら、ここも同じ内容にそろえる（実行のたびにこの文面で上書きされる）
 (ROOT / "llms.txt").write_text(f"""# THE BONJIN（ザ・ボンジン）
 
 > 宮崎を拠点に、ゲームとアプリを作る学生の開発集団。名刺とホームページの制作、中小企業のAI業務改善、iPhoneアプリ・ゲーム開発を、全国からオンラインで受け付けている（宮崎県内は対面も可）。相談は無料。
@@ -126,6 +127,7 @@ pri = {"": "1.0", "web.html": "0.9", "student.html": "0.9", "ai.html": "0.9", "w
 - 対応エリア：日本全国（オンライン）
 - 相談の窓口：各サービスページの相談フォーム（例：{BASE}web.html#contact）
 - 公式LINE：https://line.me/R/ti/p/@629zrowt
+- Google マップ（ビジネスプロフィール）：https://share.google/ikNIIgEaK2S2IRcun
 
 ## サービスと料金
 
@@ -137,9 +139,35 @@ pri = {"": "1.0", "web.html": "0.9", "student.html": "0.9", "ai.html": "0.9", "w
 
 ## 実績
 
-- [制作事例：このサイトのつくり方]({BASE}works/site.html)：事業の整理からデザイン、WebGL作品、専用ページ3本、フォーム、構造化データまで約1週間・サーバー代0円で公開した事例
-- [App Store 公開中のアプリ 6本]({BASE}apps.html)：ロウソク行脚／光の窓割り／Focus Wave／おもいで百貨店／ハンダン／つみあげ出前
-- D-CoT（小型LLMの推論効率化の研究）：人工知能学会 全国大会優秀賞（2026・単著、gitpullpull）https://arxiv.org/abs/2602.21786
+トップページの「実績・目録」（{BASE}#products）と同じ内容。公開しているもの12点。
+
+### ホームページ・名刺
+- [THE BONJIN 公式サイト]({BASE}works/site.html)：企画・文章・デザイン・実装まで。約1週間、サーバー代0円で公開（制作事例あり）
+- [医院ホームページ Before / After（見本）](https://itoshiyou.github.io/clinic-demo/)：古い医院サイトをスマホ向けに作り直した見本。架空の医院で作成。お知らせはGoogleフォームから更新できる
+- [尾薗圭亮の名刺ページ](https://itoshiyou.github.io/business-card/index.html)：名刺のQRコードから開く、スマホ用のプロフィールページ
+- [page.gitpullpull.me](https://page.gitpullpull.me)：メンバーの活動・研究・連絡先をまとめたリンク集
+
+### アプリ（App Store 公開中）
+- [Focus Wave](https://apps.apple.com/jp/app/id6824796019)：環境音アプリ
+- [ハンダン](https://apps.apple.com/jp/app/id6831944228)：日常の判断の考え方を学ぶ学習アプリ
+
+### ゲーム（App Store 公開中）
+- [ロウソク行脚](https://apps.apple.com/jp/app/id6822286730)：パズル・全6章150ステージ
+- [光の窓割り](https://apps.apple.com/jp/app/id6824348602)：パズル・全66面
+- [つみあげ出前](https://apps.apple.com/jp/app/id6829997215)：パズル・全8店
+- [おもいで百貨店](https://apps.apple.com/jp/app/id6829372905)：ドット絵の放置ゲーム
+
+### 学習・試験対策
+- [肉眼解剖学本試験 (beta)](https://plicy.net/User/76215)：医学生向けの解剖学試験対策（plicy、BETA）
+
+### 研究・受賞
+- [D-CoT（小型LLMの推論効率化）](https://arxiv.org/abs/2602.21786)：2026年度 人工知能学会全国大会 優秀賞（単著、メンバー gitpullpull）
+
+### これから（制作中・数に含めない）
+- The Taling.（AIが日々の記録をビジュアル小説にするライフログ）
+- 投資学習・ひだまりルーム（AIコンパニオンと株価を学ぶ）
+- LINEスタンプ生成パイプライン（市場分析→画像生成→リサイズを5分で自動化）
+- 骨学試験対策システム（医学部の試験対策）
 
 ## メンバー
 

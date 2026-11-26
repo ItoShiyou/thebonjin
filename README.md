@@ -95,4 +95,6 @@
 - メンバー表示：中心メンバー（尾薗・生方）とサブメンバー（梶川・gitpullpull・伊藤しよう）に分けた（content.js の `group`）
 - 対応エリアを全国（オンライン）に。旧サイトへのリンクを削除
 - SEO／AIO：`python3 tools/seo.py` で各ページの title・description・canonical・OGP・構造化データ（JSON-LD、FAQ含む）と、`sitemap.xml`・`robots.txt`・`llms.txt` をまとめて書き出す。LPの「よくある質問」を直したら再実行する
+- AI向けのプリレンダー：`content.js` を直したら `python3 tools/prerender.py` も実行する。トップの事業・メンバー・実績・団体概要を HTML にも書き込み、JavaScript を動かさない AI のクローラー（ChatGPT・Claude・Perplexity など）にも読めるようにする（Google Chrome を使う。見た目は main.js が同じ場所を描き直すので変わらない）
+- `llms.txt` を手で直したら、`tools/seo.py` の中の llms.txt の文面も同じにそろえる（seo.py を実行するとその文面で上書きされるため）
 - 独自ドメイン（例：thebonjin.com）に移るときは、`tools/seo.py` の `BASE` を変えて再実行し、`CNAME` を置く
