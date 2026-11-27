@@ -10,8 +10,7 @@
 (function () {
   "use strict";
 
-  var TO = "itwoshiyou+thebonjin@gmail.com";
-  var ENDPOINT = "https://formsubmit.co/ajax/" + TO;
+  var ENDPOINT = "https://formsubmit.co/ajax/d6098ba1b56d904190456dbab02313f4";
   var MAILTO = "itwoshiyou@gmail.com";
 
   var stamp = function () {
