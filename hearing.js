@@ -1,14 +1,13 @@
 /* THE BONJIN — hearing.js（名刺 × ホームページのヒアリング）
    - 質問は下の STEPS に並べる。ここを直せば、画面・確認画面・届くメールが全部そろって変わる
    - 1画面＝1ステップ。入力はこの端末（localStorage）に自動保存し、閉じても続きから答えられる
-   - 送信は FormSubmit 経由で itwoshiyou+thebonjin@gmail.com に届く（form.js と同じ宛先）
+   - 送信は FormSubmit 経由で届く（form.js と同じ送信先）
      メールは「STEP名｜質問」と「回答」の表になる。件名に受付番号・プラン・お名前が入る
    - URL の ?plan=student / ?plan=general で、最初に選ばれるプランを決められる */
 (function () {
   "use strict";
 
-  var TO = "itwoshiyou+thebonjin@gmail.com";
-  var ENDPOINT = "https://formsubmit.co/ajax/" + TO;
+  var ENDPOINT = "https://formsubmit.co/ajax/d6098ba1b56d904190456dbab02313f4"; // form.js と同じ（有効化済みの識別子）
   var MAILTO = "itwoshiyou@gmail.com";
   var KEY = "bonjin-hearing-v1";
   var MIN_ABOUT = 5; // 「好きなもの」「人物像」で、合わせて答えてほしい問いの数
