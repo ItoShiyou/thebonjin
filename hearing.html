@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ヒアリング（名刺 × ホームページの申し込み） — THE BONJIN</title>
+<meta name="description" content="THE BONJIN の名刺 × ホームページの申し込みページです。あなた自身について、10〜15分ほど答えてください。">
+<meta name="robots" content="noindex">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;1,400;1,500&family=Shippori+Mincho:wght@500;600;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="hr">
+
+<header class="site-head scrolled">
+  <div class="wrap head-in">
+    <a class="logo" href="index.html">THE BONJIN</a>
+    <p class="hr-head-note">名刺 × ホームページ ／ ヒアリング</p>
+  </div>
+</header>
+
+<main class="hr-main">
+  <div class="hr-wrap">
+    <div class="hr-progress">
+      <p class="hr-progress-txt" aria-hidden="true"><span class="en" id="hr-count">01 / 10</span><span id="hr-stepname"></span><span class="hr-saved" id="hr-saved" aria-live="polite">自動で保存されます</span></p>
+      <div class="hr-bar" aria-hidden="true"><span id="hr-bar"></span></div>
+    </div>
+
+    <p class="hr-resume" id="hr-resume" hidden>前回の続きから表示しています。<button type="button" id="hr-reset">最初からやり直す</button></p>
+
+    <form id="hr-form" novalidate>
+      <div id="hr-steps"></div>
+      <input type="text" name="_honey" class="lp-form-hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <div class="hr-nav" id="hr-nav">
+        <button type="button" class="hr-back" id="hr-back">戻る</button>
+        <button type="button" class="btn hr-next" id="hr-next">次へ</button>
+      </div>
+    </form>
+
+    <section class="hr-done" id="hr-done" hidden tabindex="-1">
+      <p class="label en">Thank you</p>
+      <h1>受け付けました。</h1>
+      <p class="hr-done-no">受付番号 <b id="hr-done-no"></b></p>
+      <p>ご回答ありがとうございます。内容を確認して、<span id="hr-done-mail"></span>へ確認のメールをお送りします。</p>
+      <ol class="hr-done-flow">
+        <li><span class="en">01</span>確認のメールが届きます（載せる内容や、気になった点の確認）</li>
+        <li><span class="en">02</span>メールに返信して、内容をOKにしてください</li>
+        <li><span class="en">03</span>お支払い（ご案内はメールでお送りします）</li>
+        <li><span class="en">04</span>制作開始。デザインができたら、メールでお見せします（修正は2回まで）</li>
+      </ol>
+      <p class="hr-done-note">ロゴや写真など、送りたい素材があれば、確認のメールへの返信に付けてください。</p>
+      <p><a href="index.html">トップへ戻る</a></p>
+    </section>
+  </div>
+</main>
+
+<footer class="site-foot lp-foot">
+  <div class="wrap">
+    <p class="f-logo">THE BONJIN</p>
+    <p class="f-tag">宮崎から、つくる。</p>
+    <ul class="lp-foot-links">
+      <li><a href="web.html">名刺 × ホームページ</a></li>
+      <li><a href="student.html">学割（学生・新社会人）</a></li>
+      <li><a href="index.html">トップ</a></li>
+    </ul>
+    <div class="colophon"><span>© 2026 THE BONJIN</span><span class="mono">HEARING</span></div>
+  </div>
+</footer>
+<script src="hearing.js"></script>
+</body>
+</html>
