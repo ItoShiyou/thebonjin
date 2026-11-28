@@ -68,7 +68,7 @@
         { type: "info", html:
           "<dl class=\"hr-spec\">" +
           "<div><dt>含まれるもの</dt><dd>名刺のデザイン・両面カラー印刷100枚、スマホ用のホームページ（1ページ）、QRコード、デザインに込めた意味の説明</dd></div>" +
-          "<div><dt>修正</dt><dd>2回まで</dd></div>" +
+          "<div><dt>修正</dt><dd>2回まで。デザインを送ってから<b>1週間</b>お返事がない場合は、確認いただいたものとして印刷・発送に進みます（<a href=\"terms.html#t4\" target=\"_blank\">くわしく</a>）</dd></div>" +
           "<div><dt>送料</dt><dd>送料込み（全国どこでも、追加のお支払いはありません）</dd></div>" +
           "<div><dt>かかる時間</dt><dd>このヒアリングは10〜15分ほど。答えにくい問いは飛ばせます</dd></div>" +
           "</dl>" +
@@ -86,6 +86,7 @@
         { k: "school", label: "学校・学年", req: true, ph: "新社会人の方は、勤め先と入社した年", show: function (s) { return s.plan === "student"; } },
         { k: "org", label: "会社名・屋号・所属", ph: "なければ空欄で" },
         { k: "title", label: "肩書き・役職", ph: "例：デザイナー、代表、工学部3年" },
+        { k: "age", type: "radio", label: "年齢", req: true, options: ["18歳以上", "18歳未満（保護者の同意を得ています）"], hint: "18歳未満の方は、保護者の同意を得てからお申し込みください" },
         { k: "work", label: "いまの仕事・活動", type: "textarea", req: true, ph: "例：宮崎市で、写真と映像の制作をしています。最近は店舗の撮影が多いです" },
         { k: "purpose", label: "名刺を使う場面", type: "checks", req: true, options: PURPOSES, hint: "いくつでも" },
         { k: "who", label: "名刺を渡す相手は、どんな人ですか？", type: "textarea", ph: "例：飲食店のオーナー、同じ業界の人" },
@@ -207,7 +208,10 @@
           "名刺に載せる情報（名前・連絡先など）に、まちがいがありません",
           "送る写真やロゴは、自分で使ってよいものです",
           "このあと確認のメールが届き、OKのあとにお支払い・制作開始になることを確認しました",
-          "回答は、この名刺とホームページの制作のためだけに使われることを確認しました（送信は外部のサービス FormSubmit を経由します）"] },
+          "デザインを送ってから1週間お返事がない場合は、承認したものとして修正の回数がなくなり、印刷・発送に進むことを確認しました",
+          "お支払いのあとは、お客さまの都合によるキャンセル・返金が原則できないことを確認しました（最初のデザインを送る前のお申し出だけ、決済手数料を引いて返金）",
+          "承認したデザインにあった誤り（電話番号の打ち間違いなど）を印刷し直す場合は、有料になることを確認しました",
+          ["利用規約・プライバシーポリシー・特定商取引法に基づく表記を読み、同意します", "<a href=\"terms.html\" target=\"_blank\">利用規約</a>・<a href=\"privacy.html\" target=\"_blank\">プライバシーポリシー</a>・<a href=\"tokushoho.html\" target=\"_blank\">特定商取引法に基づく表記</a>を読み、同意します"]] },
         { k: "publish", type: "radio", label: "制作事例としての紹介（任意）", options: ["紹介してよい（名前や連絡先は伏せる）", "紹介しないでほしい"], hint: "選ばなくても申し込めます" }
       ]
     }
@@ -415,6 +419,7 @@
     s.fields.forEach(function (f) {
       if (!f.k || (f.show && !f.show(state))) return;
       var v = state[f.k];
+      if (f.all && (v || []).length < f.options.length) return mark(f.k, "すべてにチェックを入れてください");
       if (f.req && !f.optionalWhenSame && !filled(v)) return mark(f.k, f.type === "radio" || f.type === "pickFrom" ? "ひとつ選んでください" : (f.type === "checks" ? "ひとつ以上選んでください" : "入力してください"));
       if (f.type === "email" && filled(v) && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)) return mark(f.k, "メールアドレスの形を確かめてください");
       if (f.type === "url" && filled(v) && !/^https?:\/\/\S+$/.test(v)) return mark(f.k, "https:// から始まるURLを入れてください");
